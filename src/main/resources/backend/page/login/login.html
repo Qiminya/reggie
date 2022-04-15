@@ -98,6 +98,7 @@
         async handleLogin() {
           this.$refs.loginForm.validate(async (valid) => {
             if (valid) {
+              //响应数据有code，data，msg
               this.loading = true
               let res = await loginApi(this.loginForm)
               if (String(res.code) === '1') {
