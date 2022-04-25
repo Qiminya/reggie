@@ -75,13 +75,13 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         // 设置输入员工的密码为123456加密后的密文
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
         // 设置创建时间
-        employee.setCreateTime(LocalDateTime.now());
-        // 最后修改时间
-        employee.setUpdateTime(LocalDateTime.now());
-        // 创建人id
-        employee.setCreateUser(id);
-        // 最后修改人id
-        employee.setUpdateUser(id);
+//        employee.setCreateTime(LocalDateTime.now());
+//        // 最后修改时间
+//        employee.setUpdateTime(LocalDateTime.now());
+//        // 创建人id
+//        employee.setCreateUser(id);
+//        // 最后修改人id
+//        employee.setUpdateUser(id);
         // 新增员工到数据库
         this.save(employee);
 

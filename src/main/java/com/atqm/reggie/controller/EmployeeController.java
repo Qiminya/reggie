@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.atqm.reggie.common.R;
 import com.atqm.reggie.entity.Employee;
 import com.atqm.reggie.service.EmployeeService;
+import com.atqm.reggie.util.BaseContent;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -81,8 +82,10 @@ public class EmployeeController {
         String employeeJSON = stringRedisTemplate.opsForValue().get(LOGIN_USER_KEY);
         Employee currentEmp = JSON.parseObject(employeeJSON, Employee.class);
         Long id = currentEmp.getId();
-        employee.setUpdateUser(id);
-        System.out.println(employee);
+        BaseContent.setCurrentId(id);
+//        employee.setUpdateUser(id);
+//        employee.setUpdateTime(LocalDateTime.now());
+
         employeeService.updateById(employee);
         return R.success("员工"+employee.getName()+"修改成功");
     }
