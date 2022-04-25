@@ -16,4 +16,5 @@ public interface EmployeeService extends IService<Employee> {
     public R<String> saveEmployee(Employee employee);
 
     public R<Page<Employee>> getEmployeeForPage(Integer page, Integer pageSize, String input);
+
 }

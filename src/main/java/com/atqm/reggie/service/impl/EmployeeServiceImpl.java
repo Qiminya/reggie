@@ -24,6 +24,9 @@ import static com.atqm.reggie.util.Constant.LOGIN_USER_KEY;
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
 
     @Autowired
+    EmployeeMapper employeeMapper;
+
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
@@ -95,9 +98,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         queryWrapper.like("name", name == null ? "" : name);
         // 查询数据放入page中
         this.page(employeePage, queryWrapper);
-        System.out.println("-------------------------------------------");
-        System.out.println(name);
-        System.out.println("-------------------------------------------");
+
         return R.success(employeePage);
     }
 }
