@@ -6,6 +6,8 @@ import com.atqm.reggie.entity.Employee;
 import com.atqm.reggie.mapper.EmployeeMapper;
 import com.atqm.reggie.service.EmployeeService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.atqm.reggie.util.Constant.LOGIN_USER_KEY;
@@ -80,5 +83,21 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         this.save(employee);
 
         return R.success("新增员工成功！");
+    }
+
+    @Override
+    public R<Page<Employee>> getEmployeeForPage(Integer page, Integer pageSize, String name) {
+        // 新建一个分页page
+        Page<Employee> employeePage = new Page<>(page,pageSize);
+
+        // 新建查询条件
+        QueryWrapper<Employee> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name", name == null ? "" : name);
+        // 查询数据放入page中
+        this.page(employeePage, queryWrapper);
+        System.out.println("-------------------------------------------");
+        System.out.println(name);
+        System.out.println("-------------------------------------------");
+        return R.success(employeePage);
     }
 }

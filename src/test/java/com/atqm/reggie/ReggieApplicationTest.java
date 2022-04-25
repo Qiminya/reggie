@@ -44,4 +44,18 @@ class ReggieApplicationTest {
         String name = stringRedisTemplate.opsForValue().get("name");
         System.out.println("查到name的数据为："+name);
     }
+
+    @Test
+    public void addEmployee(){
+
+        for (int i =0; i < 100 ;i++){
+            Employee employee = new Employee();
+            employee.setUsername("aaa"+i);
+            employee.setName("牛马"+i);
+            employee.setIdNumber("123333333333333333");
+            employee.setPhone("18711711692");
+            employee.setSex("0");
+            employeeService.saveEmployee(employee);
+        }
+    }
 }
