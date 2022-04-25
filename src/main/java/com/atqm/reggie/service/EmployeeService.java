@@ -10,4 +10,6 @@ public interface EmployeeService extends IService<Employee> {
     public R<Employee> login(Employee employee);
 
     public R<String> logout();
+
+    public R<String> saveEmployee(Employee employee);
 }

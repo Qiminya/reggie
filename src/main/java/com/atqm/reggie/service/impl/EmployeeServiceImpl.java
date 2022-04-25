@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import static com.atqm.reggie.util.Constant.LOGIN_USER_KEY;
@@ -56,5 +57,28 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         // 删除redis中的当前用户
         stringRedisTemplate.delete(LOGIN_USER_KEY);
         return R.success("退出登录成功！");
+    }
+
+    @Override
+    public R<String> saveEmployee(Employee employee) {
+        // 获取当前登录员工的id
+        String employeeJSON = stringRedisTemplate.opsForValue().get(LOGIN_USER_KEY);
+        Employee currentEmp = JSON.parseObject(employeeJSON, Employee.class);
+        Long id = currentEmp.getId();
+
+        // 设置输入员工的密码为123456加密后的密文
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        // 设置创建时间
+        employee.setCreateTime(LocalDateTime.now());
+        // 最后修改时间
+        employee.setUpdateTime(LocalDateTime.now());
+        // 创建人id
+        employee.setCreateUser(id);
+        // 最后修改人id
+        employee.setUpdateUser(id);
+        // 新增员工到数据库
+        this.save(employee);
+
+        return R.success("新增员工成功！");
     }
 }
